@@ -15,12 +15,11 @@ public class Main {
     System.out.println("Please choice a car to simulate: ");
    
     while (choice >= 0 && choice <= 4) {
-
         choice = input.nextInt();
       if (choice < 0 || choice > 4) {
         System.out.println("Please enter a correct number: ");
       }
     }
-  
+  input.close();
   }
 }
