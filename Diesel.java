@@ -5,5 +5,7 @@ public class Diesel {
   static boolean igitionStatus; 
   static double throttlePostion, oilPressure;
 
-  
+  public static void main(String[] args) {
+    
+  }
 }

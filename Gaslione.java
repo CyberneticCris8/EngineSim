@@ -1,3 +1,4 @@
+import java.time.Instant;
 import java.util.Map;
 import java.util.NavigableMap;
 import java.util.Scanner;
@@ -5,10 +6,12 @@ import java.util.TreeMap;
 
 public class Gaslione {
   static String car = "2025 Ford Mustang Dark Horse";
-  static int temp; 
+  static double temp; 
   static float fuelLevel, rpm;
   static boolean igitionStatus; 
   static double throttlePostion, oilPressure;
+
+  static Long engStart, engStop, engTime; 
 
 public static Scanner input = new Scanner(System.in);
 
@@ -18,35 +21,60 @@ public synchronized static void engineCond() {
   weatherCond.put(55, "Cool");
   weatherCond.put(80, "Warm");
   weatherCond.put(120, "Hot");
-  Map.Entry<Integer, String> userEntry = weatherCond.floorEntry(temp); 
+  Map.Entry<Integer, String> userEntry = weatherCond.floorEntry((int)temp); 
 
     try {
   System.out.println("--------------------");
   System.out.println("Enter Oustide Tempture (°F): ");
   temp = input.nextInt(); 
-    
+  
+ do {
     if (userEntry != null) {
-      System.out.println("The Weather Conditions Are: " + temp + " " + "[" + userEntry.getValue() + "]");
+      System.out.println("The Weather Conditions Will Be: " + temp + " " + "[" + userEntry.getValue() + "]");
         } else { 
           System.out.println("Tempture is Out of Range.");
-        }
+    }
+  } while (temp != 0); 
+
+  do {
+    throttlePostion = (double) (Math.random() * (6 - 4 + 1) + 4);
+    Map.Entry<Integer, String> throttleEntry = weatherCond.floorEntry((int)throttlePostion); 
+      if (throttleEntry != null) {
+        System.out.println("Engine's Throttle Is: " + throttlePostion + "% [Based on " + userEntry.getValue() + " weather]");
+} else {
+  System.out.println("Throttle Failure");
+} 
+while (throttlePostion != 0);
     
   System.out.println("Enter Fuel Level: ");
   fuelLevel = input.nextFloat(); 
-  Thread.sleep(1000);
+  do {
+    if ((fuelLevel > 100) || (fuelLevel <= 0)) {
+      System.out.println("Please Enter Appropriate Fuel Level (0.0 - 100.0): ");
+    }
+  }  while (fuelLevel != 0); 
 
+  Thread.sleep(1000);
   System.out.println("------------------");
   Thread.sleep(500);
 
-  System.out.println("Enter Oil Pressure: ");
-  oilPressure = input.nextDouble(); 
+  do {
+      System.out.println("Enter Oil Pressure (17 PSI - 28 PSI): ");
+      oilPressure = input.nextDouble(); 
+      if (!(oilPressure < 17) || !(oilPressure > 28)) {
+        System.out.println("Please enter a valid oil pressure.");
+    }
+  } while (oilPressure < 17 || oilPressure > 28);
+
   Thread.sleep(1000);
 
-  System.out.println("Starting Fuel Level: " + fuelLevel);
-  System.out.println("Starting Oil Pressure: " + oilPressure);
+  System.out.println("Starting Fuel Level: " + fuelLevel + " %");
+  System.out.println("Starting Oil Pressure: " + oilPressure + " PSI");
 
-  } catch (InterruptedException e) {
+   catch (InterruptedException e) {
   Thread.currentThread().interrupt();
+      }
+    }
   }
 }
 
@@ -69,24 +97,35 @@ public static void start() {
 
   double startTime = (double) randomStart / 1000; 
   System.out.println("Engine start time: " + startTime);
+
+  
+do {
+  idle();
+  } while (igitionStatus);
 }
 
-public static void stop() {
-  
+public static void idle() {
+  engStart = System.nanoTime();
+  while (igitionStatus) {
+    engTime = System.nanoTime(); 
+    long timeElapsed = engTime - engStart; 
+    System.out.println("\rEngine running: " + timeElapsed + " ms");
+  } 
+
+
+
 }
 
 public static void rev() {
 
 }
 
-public static void idle() {
-while (igitionStatus) {
-
-}
-}
-
 public static void consumeFuel() {
 
+}
+
+public static void stop() {
+  
 }
 
 public static void main(String args[]) {

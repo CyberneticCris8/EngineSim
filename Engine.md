@@ -30,12 +30,12 @@ stop
  - verify no levels are low at end of sim
 
 rev
- - user input throttle
  - calcuate changes to rpm, temp, oil pressure
  - display levels after rev
 
 idle 
  - track time car is in idle
+ - change 
  - option to be able to check levels anytime in idle
    
 consumeFuel
@@ -49,5 +49,13 @@ main
  - engineCond() 
  - start engine 
 
+IDLE range for engine
+---------------------
+- Throttle: 4% - 6% (6-7: Cold / 4-6: Warm / ~4: Off)
+- RPM 1,000 - 800 (Cold to Warm)
+- Oil Pressure 
 
-   
+8/6/25: 
+- Need to do more reserach on connecting all aspects 
+- Reformat logic as it is not good 
+- 

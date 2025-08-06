@@ -5,7 +5,9 @@ public class Electric {
   static boolean igitionStatus; 
   static double throttlePostion;
 
-
+public static void main(String[] args) {
+  
+}
 
   
 }
