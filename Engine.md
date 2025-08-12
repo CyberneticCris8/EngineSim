@@ -9,7 +9,7 @@ Engine Program Notes
 
 Gaslione Pseudocode
 ------------------
-RPM, Fuel Level, Temp, Oil Pressure, Igition Status, Throttle Postion 
+RPM, Fuel Level, Engine Temp, Oil Pressure, Igition Status, Throttle Postion 
 
 engineCond
  - Assign weather condition 
@@ -55,7 +55,10 @@ IDLE range for engine
 - RPM 1,000 - 800 (Cold to Warm)
 - Oil Pressure 
 
-8/6/25: 
-- Need to do more reserach on connecting all aspects 
-- Reformat logic as it is not good 
+Test Specs 
+-----------
+- idleRPM = 700 
+- maxRPM = 7000
+- targetEngineTemp = 190 °F
+- warmupScale = 0.10 
 - 

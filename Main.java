@@ -9,34 +9,9 @@ public class Main {
   System.out.println("2025");
   System.out.println("--------------------");
 
-  Gaslione gasCar = new Gaslione();
-  Diesel dieselCar = new Diesel(); 
-  Electric electricCar = new Electric();
-  Hybrid hybridCar = new Hybrid(); 
-  
-  System.out.println("1. Gaslione: 2025 Ford Mustang Dark Horse");
-  System.out.println("2. Diesel: 2025 Ford F-250 Super Duty");
-  System.out.println("3. Electric: 2025 Ford Supervan 4 2.5");
-  System.out.println("Please choice a car to simulate: ");
+  Engine gasCar = new Engine();
 
-  do {
-    switch (choice) {
-      case 1:
-        gasCar.main(args);
-        break;
-      case 2: 
-        dieselCar.main(args); 
-        break; 
-      case 3: 
-        electricCar.main(args); 
-        break;
-      case 4: 
-        hybridCar.main(args); 
-        break; 
-      default:
-        break;
-    }
-    } while (choice <= 4 || choice >= 0); 
+
   input.close();
   }
 }
