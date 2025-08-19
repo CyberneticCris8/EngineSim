@@ -9,21 +9,23 @@ public class Engine {
   static float fuelLevel, rpm, idleRpm;
   static boolean igitionStatus, engineRunning;
   static double throttlePostion, oilPressure;
-  static Long engStart, engStop, engTime;
+  static Long engStart, engStop, engTime, milSecs;
 
   public static Scanner input = new Scanner(System.in);
 
-  public synchronized static void engine() {
+  public static void engine() {
     igitionStatus = true; 
     double maxThrottle = 100, maxFuel = 100, maxEngTemp = 248, maxOilPress = 80;
     double minThrottle = 0, minFuel = 0, minEngTemp = 65, minOilPress = 25;
     float minRPM = 600, maxRPM = 8000;
 
     NavigableMap<Double, String> weatherCond = new TreeMap<>();
-    weatherCond.put(-30.0, "Cold");
+    weatherCond.put(-30.0, "Freezing");
+    weatherCond.put(25.0, "Cold");
     weatherCond.put(55.0, "Cool");
-    weatherCond.put(80.0, "Warm");
-    weatherCond.put(120.0, "Hot");
+    weatherCond.put(70.0, "Warm"); 
+    weatherCond.put(80.0, "Hot");
+    weatherCond.put(120.0, "Hotest");
 
       // Get User Input on Weather Condoitions
       do {
@@ -50,6 +52,9 @@ public class Engine {
     
     // Get starting RPM 
     rpm = (float) (tempRange * (maxRPM - minRPM)) + minRPM;
+
+    // Get starting throttle 
+    throttlePostion = (tempRange * (maxThrottle - minThrottle)) + minThrottle; 
 
     // Get Fuel Level
       do {
@@ -84,92 +89,36 @@ public class Engine {
     double startTime = (double) randomStart / 1000;
     System.out.println("Engine start time: " + startTime);
 
-    if (engineRunning) {
-      idle();
-    }
-  }
+    engStart = System.nanoTime();   
+    
+    engTime = System.nanoTime();
+    long timeElapsed = engTime - engStart;
+    milSecs = TimeUnit.NANOSECONDS.toMillis(timeElapsed);
 
-  public static void idle() {
-    engStart = System.nanoTime();
-
-    while (engineRunning) {
-      engTime = System.nanoTime();
-      long timeElapsed = engTime - engStart;
-      long milSecs = TimeUnit.NANOSECONDS.toMillis(timeElapsed);
-      System.out.print("\rEngine running: " + milSecs + " ms");
-    }
-      int userInput; 
-      do {
-      System.out.println("---------------------");
-      System.out.println("1. View Current Sepcs");
-      System.out.println("2. Rev Engine");
-      System.out.println("3. Run Engine");
-      System.out.println("4. Stop Engine");
-      userInput = input.nextInt(); 
-        if (0 > userInput || userInput > 4) {
-          System.out.print("[Enter Correct Value] ");
-        }
-      } while (0 > userInput || userInput > 3); 
-
-      switch (userInput) {
-        case 1:
-        System.out.println("Weather Condition : " + temp + "°F");
-        System.out.println("Engine Temp : " + engineTemp + "°F");
-        System.out.println("RPM : " + rpm + "°F");
-        System.out.println("Oil Pressure: " + oilPressure);
-        System.out.println("Fuel Levels: " + fuelLevel);
-        break;
-
-        case 2: 
-        rev();
-          break; 
-
-        case 3: 
-        consumeFuel(); 
-          break; 
-
-        case 4: 
-        stop();
-          break; 
-
-        default:
-          break;
-      }
+    rev();
   }
 
   public static void rev() {
+    System.out.println("Engine Specs Before Rev");
+    System.out.println("Fuel Levels: " + fuelLevel);
+    System.out.println("RPM: " + rpm);
+    System.out.println("Engine Temp: " + engineTemp);
+    System.out.println("Oil Pressure: " + oilPressure);
+    System.out.println("Throttle: " + throttlePostion);
   }
 
   public static void consumeFuel() {
+
   }
 
   public static void stop() {
     engineRunning = false;
     igitionStatus = false;
-
-    if (!engineRunning && igitionStatus) {
-      System.out.println("Ending Car Engine Specs: [Fuel Levels: " + fuelLevel + " ] [Engine Temp: " + engineTemp + " ] [Oil Pressure: " + oilPressure + " ]");
-    } else {
-      System.out.println("Engine is still running.");
-    }
-  }
-
-  public static void main(String args[]) {
-    try {
-      System.out.println("----------------------------");
-      Thread.sleep(1000);
-      engine();
-    } catch (InterruptedException e) {
-      Thread.currentThread().interrupt();
-    }
-
-    input.nextLine();
-    System.out.println("Press [Enter] to Start Engine: ");
-    String kbInput = input.nextLine();
-
-    if (!kbInput.isEmpty()) {
-      start();
-    }
-    input.close();
+    System.out.println("   Final Test Specs   ");
+    System.out.println("----------------------");
+    System.out.print("/r Engine Time: " + milSecs);
+    System.out.println("Fuel Levels: " + fuelLevel);
+    System.out.println("Engine Temp: " + engineTemp);
+    System.out.println("Oil Pressure: " + oilPressure);
   }
 }
